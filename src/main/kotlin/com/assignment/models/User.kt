@@ -1,5 +1,6 @@
 package com.assignment.models
 
+import com.assignment.dto.UserDTO
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -24,4 +25,6 @@ class User(id: EntityID<Int>): IntEntity(id) {
     var job by Users.job
     var pet by Users.pet
     var date by Users.date
+
+    fun toUsersDTO() = UserDTO(name, age, job, pet, date)
 }
