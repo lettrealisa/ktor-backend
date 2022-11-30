@@ -1,5 +1,7 @@
 package com.assignment.plugins
 
+import com.assignment.dao.DAOFacade
+import com.assignment.models.User
 import io.ktor.server.routing.*
 import io.ktor.http.*
 import io.ktor.server.plugins.statuspages.*
@@ -7,6 +9,7 @@ import io.ktor.server.locations.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
+import com.assignment.dao.DAOFacadeImpl
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -18,6 +21,7 @@ fun Application.configureRouting() {
     }
 
     routing {
+        val dao: DAOFacade = DAOFacadeImpl()
         get("/") {
             call.respondText("Hello World!")
         }
@@ -31,6 +35,10 @@ fun Application.configureRouting() {
             get<Type.List> {
                 call.respondText("Inside $it")
             }
+        post("/users") {
+            val user = call.receive<User>()
+            dao.addNewUser(user.name, user.age, user.job, user.pet, user.date)
+        }
     }
 }
 @Location("/location/{name}")
