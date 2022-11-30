@@ -10,6 +10,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.assignment.dao.DAOFacadeImpl
+import com.assignment.dto.UserDTO
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -36,7 +37,7 @@ fun Application.configureRouting() {
                 call.respondText("Inside $it")
             }
         post("/users") {
-            val user = call.receive<User>()
+            val user = call.receive<UserDTO>()
             dao.addNewUser(user.name, user.age, user.job, user.pet, user.date)
         }
     }
