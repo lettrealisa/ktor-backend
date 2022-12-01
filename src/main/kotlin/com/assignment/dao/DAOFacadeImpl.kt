@@ -15,13 +15,13 @@ class DAOFacadeImpl : DAOFacade {
         return user
     }
 
-    override suspend fun addNewUser(name: String, age: Int, job: String, pet: String, date: LocalDateTime): User {
+    override suspend fun addNewUser(userDTO: UserDTO): User {
         val user = User.new {
-            this.name = name
-            this.age = age
-            this.job = job
-            this.pet = pet
-            this.date = date
+            this.name = userDTO.name
+            this.age = userDTO.age
+            this.job = userDTO.job
+            this.pet = userDTO.pet
+            this.date = userDTO.date
         }
         return user
     }

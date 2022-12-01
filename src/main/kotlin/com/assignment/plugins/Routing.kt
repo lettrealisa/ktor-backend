@@ -38,7 +38,9 @@ fun Application.configureRouting() {
             }
         post("/users") {
             val user = call.receive<UserDTO>()
-            dao.addNewUser(user.name, user.age, user.job, user.pet, user.date)
+            println(user)
+            dao.addNewUser(user)
+            call.respond(user)
         }
     }
 }
