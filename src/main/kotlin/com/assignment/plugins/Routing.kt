@@ -36,11 +36,17 @@ fun Application.configureRouting() {
             get<Type.List> {
                 call.respondText("Inside $it")
             }
+        get("/users") {
+            call.respond(dao.allUsers())
+        }
         post("/users") {
             val user = call.receive<UserDTO>()
             println(user)
             dao.addNewUser(user)
             call.respond(user)
+        }
+        get("/pets") {
+            call.respond(dao.allPets())
         }
     }
 }

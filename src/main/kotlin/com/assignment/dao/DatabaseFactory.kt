@@ -1,5 +1,6 @@
 package com.assignment.dao
 
+import com.assignment.models.Pets
 import com.assignment.models.Users
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -15,6 +16,7 @@ object DatabaseFactory {
 
         transaction {
             SchemaUtils.create(Users)
+            SchemaUtils.create(Pets)
         }
     }
 }
