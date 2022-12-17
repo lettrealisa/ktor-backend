@@ -10,7 +10,9 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.assignment.dao.DAOFacadeImpl
+import com.assignment.dto.GlucoseDTO
 import com.assignment.dto.UserDTO
+import com.assignment.models.Glucose
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -41,12 +43,22 @@ fun Application.configureRouting() {
         }
         post("/users") {
             val user = call.receive<UserDTO>()
-            println(user)
             dao.addNewUser(user)
             call.respond(user)
         }
         get("/pets") {
             call.respond(dao.allPets())
+        }
+        get("/foods") {
+            call.respond(dao.allFoods())
+        }
+        get("/glucose") {
+            call.respond(dao.allGlucoseData())
+        }
+        post("/glucose") {
+            val glucose = call.receive<GlucoseDTO>()
+            dao.addNewGlucoseData(glucose)
+            call.respond(dao)
         }
     }
 }

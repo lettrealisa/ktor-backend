@@ -1,10 +1,10 @@
 package com.assignment.dao
 
+import com.assignment.dto.FoodDTO
+import com.assignment.dto.GlucoseDTO
 import com.assignment.dto.PetDTO
 import com.assignment.dto.UserDTO
-import com.assignment.models.Pet
-import com.assignment.models.Pets
-import com.assignment.models.User
+import com.assignment.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
@@ -48,5 +48,22 @@ class DAOFacadeImpl : DAOFacade {
     override suspend fun allPets(): List<PetDTO> = newSuspendedTransaction(Dispatchers.IO) {
         val pets = Pet.all()
         pets.map { it.toPetsDTO() }
+    }
+
+    override suspend fun allFoods(): List<FoodDTO> = newSuspendedTransaction(Dispatchers.IO) {
+        val foods = Food.all()
+        foods.map { it.toFoodsDTO() }
+    }
+
+    override suspend fun allGlucoseData(): List<GlucoseDTO> = newSuspendedTransaction(Dispatchers.IO) {
+        val glucoseData = Glucose.all()
+        glucoseData.map { it.toGlucoseDataDTO() }
+    }
+
+    override suspend fun addNewGlucoseData(glucoseDTO: GlucoseDTO): Glucose = newSuspendedTransaction(Dispatchers.IO) {
+        Glucose.new {
+            this.value = glucoseDTO.value
+            this.date = glucoseDTO.date
+        }
     }
 }

@@ -1,13 +1,12 @@
 package com.assignment.dao
 
-import com.assignment.models.Pets
-import com.assignment.models.Users
+import com.assignment.models.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
-import com.assignment.models.User
+
 object DatabaseFactory {
     fun init() {
         val driverClassName = "org.postgresql.Driver"
@@ -15,8 +14,7 @@ object DatabaseFactory {
         val database = Database.connect(jdbcURL, driverClassName, "postgres", "2PKI5sa2acZyc9sg")
 
         transaction {
-            SchemaUtils.create(Users)
-            SchemaUtils.create(Pets)
+            SchemaUtils.createMissingTablesAndColumns(Users, Pets, Foods, GlucoseData)
         }
     }
 }
