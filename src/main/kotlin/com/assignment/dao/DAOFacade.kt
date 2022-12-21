@@ -1,10 +1,8 @@
 package com.assignment.dao
 
-import com.assignment.dto.FoodDTO
-import com.assignment.dto.GlucoseDTO
-import com.assignment.dto.PetDTO
-import com.assignment.dto.UserDTO
+import com.assignment.dto.*
 import com.assignment.models.Glucose
+import com.assignment.models.Role
 import com.assignment.models.User
 import kotlinx.datetime.LocalDateTime
 
@@ -18,4 +16,5 @@ interface DAOFacade {
     suspend fun allFoods(): List<FoodDTO>
     suspend fun allGlucoseData(): List<GlucoseDTO>
     suspend fun addNewGlucoseData(glucoseDTO: GlucoseDTO): Glucose
+    suspend fun addRoleToUser(userId: Int, roleId: Int)
 }

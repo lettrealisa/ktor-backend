@@ -14,7 +14,7 @@ object DatabaseFactory {
         val database = Database.connect(jdbcURL, driverClassName, "postgres", "2PKI5sa2acZyc9sg")
 
         transaction {
-            SchemaUtils.createMissingTablesAndColumns(Users, Pets, Foods, GlucoseData)
+            SchemaUtils.createMissingTablesAndColumns(Users, Pets, Foods, GlucoseData, Roles)
         }
     }
 }

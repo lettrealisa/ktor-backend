@@ -1,6 +1,7 @@
 package com.assignment.models
 
 import com.assignment.dto.UserDTO
+import com.assignment.models.Glucose.Companion.referrersOn
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
@@ -15,6 +16,7 @@ object Users : IntIdTable() {
     val job: Column<String> = varchar("job", 255)
     val pet: Column<String> = varchar("pet", 255)
     val date: Column<LocalDateTime> = datetime("date")
+    val role = reference("role", Roles)
 }
 
 class User(id: EntityID<Int>): IntEntity(id) {
@@ -24,6 +26,7 @@ class User(id: EntityID<Int>): IntEntity(id) {
     var job by Users.job
     var pet by Users.pet
     var date by Users.date
+    var role by Role referencedOn Users.role
 
-    fun toUsersDTO() = UserDTO(name, age, job, pet, date)
+    fun toUsersDTO() = UserDTO(name, age, job, pet, date, role.toRolesDTO())
 }

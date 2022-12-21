@@ -66,4 +66,10 @@ class DAOFacadeImpl : DAOFacade {
             this.date = glucoseDTO.date
         }
     }
+
+    override suspend fun addRoleToUser(userId: Int, roleId: Int) = newSuspendedTransaction(Dispatchers.IO) {
+        val user = User.findById(userId)
+        val role = Role.findById(roleId)
+        user?.role = role!!
+    }
 }

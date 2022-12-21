@@ -11,8 +11,10 @@ import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.assignment.dao.DAOFacadeImpl
 import com.assignment.dto.GlucoseDTO
+import com.assignment.dto.RoleDTO
 import com.assignment.dto.UserDTO
 import com.assignment.models.Glucose
+import com.assignment.models.Role
 
 fun Application.configureRouting() {
     install(StatusPages) {
@@ -59,6 +61,12 @@ fun Application.configureRouting() {
             val glucose = call.receive<GlucoseDTO>()
             dao.addNewGlucoseData(glucose)
             call.respond(dao)
+        }
+        post("/addRoleToUser") {
+            val userId = call.request.queryParameters["user"]!!.toInt()
+            val roleId = call.request.queryParameters["role"]!!.toInt()
+            dao.addRoleToUser(userId, roleId)
+            call.respond("Пользователь $userId получает роль $roleId")
         }
     }
 }
