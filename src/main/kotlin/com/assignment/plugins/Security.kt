@@ -49,7 +49,7 @@ fun Application.configureSecurity() {
                     JWT
                         .require(Algorithm.HMAC256("secret"))
                         .withAudience(jwtAudience)
-                        .withIssuer(this@configureSecurity.environment.config.property("jwt.domain").getString())
+                        .withIssuer(this@configureSecurity.environment.config.property("jwt.issuer").getString())
                         .build()
                 )
                 validate { credential ->

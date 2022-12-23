@@ -15,8 +15,11 @@ import com.assignment.dto.RoleDTO
 import com.assignment.dto.UserDTO
 import com.assignment.models.Glucose
 import com.assignment.models.Role
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
+import java.util.*
 
-fun Application.configureRouting() {
+fun Application.configureRouting(audience: String, issuer: String, secret: String) {
     install(StatusPages) {
         exception<Throwable> { call, cause ->
             call.respondText(text = "500: $cause" , status = HttpStatusCode.InternalServerError)
@@ -67,6 +70,18 @@ fun Application.configureRouting() {
             val roleId = call.request.queryParameters["role"]!!.toInt()
             dao.addRoleToUser(userId, roleId)
             call.respond("Пользователь $userId получает роль $roleId")
+        }
+        post("/login") {
+            val user = call.receive<UserDTO>()
+            // Check username & password
+            val token = JWT.create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("username", user.name)
+                .withExpiresAt(
+                    Date(System.currentTimeMillis().plus(60000)))
+                .sign(Algorithm.HMAC256(secret))
+            call.respond(hashMapOf("token" to token))
         }
     }
 }
