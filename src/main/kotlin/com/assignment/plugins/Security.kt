@@ -42,7 +42,7 @@ fun Application.configureSecurity() {
             }
         }
     authentication {
-            jwt {
+            jwt("auth-jwt") {
                 val jwtAudience = this@configureSecurity.environment.config.property("jwt.audience").getString()
                 realm = this@configureSecurity.environment.config.property("jwt.realm").getString()
                 verifier(
