@@ -8,7 +8,6 @@ import com.assignment.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.datetime.LocalDateTime
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class DAOFacadeImpl : DAOFacade {
     override suspend fun allUsers(): List<UserDTO> = newSuspendedTransaction(Dispatchers.IO)  {
@@ -16,9 +15,12 @@ class DAOFacadeImpl : DAOFacade {
         users.map { it.toUsersDTO() }
     }
 
-    override suspend fun user(id: Int): User?  {
-        val user = User.findById(id)
-        return user
+    override suspend fun user(id: Int): User? = newSuspendedTransaction(Dispatchers.IO) {
+        User.findById(id)
+    }
+
+    override suspend fun userByName(name: String): UserDTO? = newSuspendedTransaction(Dispatchers.IO) {
+        User.find {  Users.name eq name }.firstOrNull()?.toUsersDTO()
     }
 
     override suspend fun addNewUser(userDTO: UserDTO): User = newSuspendedTransaction(Dispatchers.IO) {
